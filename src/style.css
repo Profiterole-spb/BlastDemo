@@ -8,6 +8,7 @@ html,
 body
 {
     overflow: hidden;
+    font-family: Marvin, sans-serif;
 }
 
 .webgl
@@ -16,4 +17,9 @@ body
     top: 0;
     left: 0;
     outline: none;
+}
+
+@font-face {
+    font-family: 'Marvin';
+    src: url("../static/fonts/marvin.otf") format("opentype");
 }

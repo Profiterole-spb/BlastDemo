@@ -1,13 +1,13 @@
 import Clock from "./Clock.js";
 import EventEmitter from "./EventEmitter.js";
-import {Container} from "pixi.js";
 
 export default class Locator {
   static _services = {
       clock: new Clock(),
       canvas: document.createElement('canvas'),
-      eventEmitter: new EventEmitter(),
-      stage: new Container()
+      eventBus: new EventEmitter(),
+      stage: null,
+      loader: null,
     }
 
   /**
@@ -50,11 +50,19 @@ export default class Locator {
     return this._services.stage
   }
 
-  static provideEventEmitter(eventEmitter) {
+  static provideEventBus(eventEmitter) {
     this._services.eventBus = eventEmitter;
   }
 
-  static getEventEmitter() {
+  static getEventBus() {
     return this._services.eventBus
+  }
+
+  static provideLoader(loader) {
+    this._services.loader = loader
+  }
+
+  static getLoader() {
+    return this._services.loader
   }
 }
