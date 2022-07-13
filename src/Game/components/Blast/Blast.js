@@ -30,6 +30,18 @@ export default class Blast extends EventEmitter {
     this.systems.push(new DestroySystem(this))
 
     this.input.addEventListener('pointerup', this.handlePointerUp, this)
+    this.addEventListener('DestroySystem: destroy', () => {
+      this.emit('Activate: DropSystem')
+    })
+
+    this.addEventListener('DropSystem: no empty cells', () => {
+      console.log('Input is enabled')
+      this.input.view.interactive = true
+    })
+    this.addEventListener('SimpleBlastSystem: no region', () => {
+      console.log('Input is enabled')
+      this.input.view.interactive = true
+    })
   }
 
   update() {
@@ -46,7 +58,9 @@ export default class Blast extends EventEmitter {
 
     console.log('selected', entity)
     this.systems[3].isActive = true;
-    // this.input.view.interactive = false;
+    console.log('Input is disabled')
+    this.input.view.interactive = false;
+    this.emit('Activate: SimpleBlastSystem')
     // this.view.getChildByName(entity.id).destroy()
     // this.entities[y * this.options.columns + x] = null
   }

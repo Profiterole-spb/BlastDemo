@@ -10,11 +10,16 @@ export default class DestroySystem extends EventEmitter {
   }
 
   update() {
+    const destroyed = []
     this.entities.forEach((entity, index) => {
       if (entity && entity.destroy) {
         this.game.view.getChildByName(entity.id).destroy()
+        destroyed.push(this.entities[index])
         this.entities[index] = null
       }
     })
+    if (destroyed.length > 0) {
+      this.game.emit('DestroySystem: destroy', destroyed)
+    }
   }
 }
