@@ -15,7 +15,14 @@ export default class LevelState extends EventEmitter {
   init() {
     if (this.isActive) return;
 
-    this.screen = new LevelScreen();
+    this.data = {
+      movies: 20,
+      scores: 0,
+      scoresForWin: 500,
+      bonuses: [false, false, false]
+    }
+
+    this.screen = new LevelScreen(this);
     Locator.getStage().addChild(this.screen.view);
 
     this.blast = new Blast({
@@ -27,36 +34,49 @@ export default class LevelState extends EventEmitter {
       rows: 10,
       minRegion: 2,
       entities: {
+        bonuses: {
+          bomb: {
+            texture: 'bomb',
+            type: 'bonus',
+            destroyEffect: 'explosion',
+            radius: 1
+          }
+        },
         simple: {
           blue: {
             texture: 'blue',
             type: 'simple',
             falling: true,
             destroyEffect: 'scaleDown',
+            sortable: true,
           },
           red: {
             texture: 'red',
             type: 'simple',
             falling: true,
             destroyEffect: 'scaleDown',
+            sortable: true,
           },
           yellow: {
             texture: 'yellow',
             type: 'simple',
             falling: true,
             destroyEffect: 'scaleDown',
+            sortable: true,
           },
           green: {
             texture: 'green',
             type: 'simple',
             falling: true,
             destroyEffect: 'scaleDown',
+            sortable: true,
           },
           purple: {
             texture: 'purple',
             type: 'simple',
             falling: true,
             destroyEffect: 'scaleDown',
+            sortable: true,
           },
         }
       }
@@ -64,11 +84,55 @@ export default class LevelState extends EventEmitter {
     this.blast.view.position.set(45, 60)
     this.screen.blastContainer.addChild(this.blast.view)
 
+    this.blast.addEventListener('SimpleBlastSystem: use region', this.handleMovies, this)
+    this.blast.addEventListener('DestroySystem: destroy', this.handleDestroyItems, this)
+
+    this.screen.addEventListener('clickOnBonus', (e) => {
+      this.data.bonuses[e.index] = !this.data.bonuses[e.index]
+      this.blast.bombBonusIsActive = this.data.bonuses[0]
+    })
+
     this.isActive = true;
+  }
+
+  handleMovies() {
+
+  }
+
+  handleDestroyItems(data) {
+    console.log(data)
+    const scores = data.length ** 2
+    this.data.scores += scores
+
+    this.data.movies -= 1;
+    if (this.data.movies === 0) {
+      this.screen.blastContainer.interactiveChildren = false
+    }
+
+    this.checkScores()
+  }
+
+  checkScores() {
+    if (this.data.movies >= 0 && this.data.scores >= this.data.scoresForWin) {
+      this.handleWin()
+    }
+
+    if (this.data.movies === 0 && this.data.scores < this.data.scoresForWin) {
+      this.handleFail()
+    }
+  }
+
+  handleWin() {
+    console.log('win')
+  }
+
+  handleFail() {
+    console.log('fail')
   }
 
   update() {
     this.blast.update()
+    this.screen.update()
   }
 
   terminate() {

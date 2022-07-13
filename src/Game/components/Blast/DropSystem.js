@@ -17,6 +17,7 @@ export default class DropSystem extends EventEmitter {
     this.entities.forEach((entity, index) => {
       if (entity === null) return;
       if (entity.dropping) return;
+      if (!entity.falling) return;
       // if (index > this.options.columns * this.options.rows) return;
       if (this.entities[index + this.options.columns] === null) {
         const sprite = this.view.getChildByName(entity.id);

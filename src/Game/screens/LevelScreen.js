@@ -1,10 +1,17 @@
 import {Container, NineSlicePlane, Sprite, Texture, Text} from "pixi.js";
 import Locator from "../../Services/Locator.js";
 import {SETTINGS} from "../settings.js";
+import EventEmitter from "../../Services/EventEmitter.js";
+import {GlowFilter} from 'pixi-filters'
 
-export default class LevelScreen {
-  constructor() {
+export default class LevelScreen extends EventEmitter{
+  constructor(state) {
+    super()
+
+    this.state = state
     this.view = new Container();
+
+    this.glowFilter = new GlowFilter({distance: 60})
 
     const background = new Sprite(Texture.WHITE);
     background.tint = 0xa1a1a1;
@@ -85,9 +92,14 @@ export default class LevelScreen {
         1820
       )
 
+      const icon = new Sprite()
+      icon.anchor.set(0.5)
+      icon.name = 'icon'
+      icon.position.set(bonusContainer.width / 2, 120)
+
       const costContainer = new Sprite(Locator.getLoader().resources['bonus_cost_bg'].texture)
       costContainer.position.set(20, bonusContainer.height - costContainer.height - 20)
-      bonusContainer.addChild(costContainer)
+      bonusContainer.addChild(costContainer, icon)
 
       const value = new Text('5', {fill: '#fff', fontFamily: 'Marvin', fontSize: 80})
       value.anchor.set(1, 0.6)
@@ -99,9 +111,15 @@ export default class LevelScreen {
       coin.position.set(costContainer.width - 90, costContainer.height / 2)
       costContainer.addChild(coin)
 
+      bonusContainer.interactive = true;
+      bonusContainer.on('pointerup', () => {
+        this.emit('clickOnBonus', {index: i})
+      })
 
       bonuses.push(bonusContainer)
     }
+
+    bonuses[0].getChildByName('icon').texture = Locator.getLoader().resources['bomb'].texture
 
     pauseButton.addChild(pauseIcon)
     scoresContainer.addChild(scoresLabelText, scoresValueText)
@@ -112,9 +130,17 @@ export default class LevelScreen {
 
 
     this.blastContainer = field
+    this.movesText = movesText
+    this.scoresValueText = scoresValueText
+    this.bonuses = bonuses
   }
 
   update() {
+    this.movesText.text = Math.trunc(this.state.data.movies)
+    this.scoresValueText.text = Math.trunc(this.state.data.scores)
 
+    this.bonuses.forEach((container, index)=> {
+      container.filters = this.state.data.bonuses[index] ? [this.glowFilter] : []
+    })
   }
 }

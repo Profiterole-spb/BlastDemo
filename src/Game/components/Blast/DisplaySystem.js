@@ -33,7 +33,8 @@ export default class DisplaySystem extends EventEmitter {
         sprite.texture = Locator.getLoader().resources[entity.texture].texture;
         sprite.textureName = sprite.texture;
       }
-      sprite.zIndex = this.options.rows - Math.floor(index / this.options.columns)
+      if (entity.sortable)
+        sprite.zIndex = this.options.rows - Math.floor(index / this.options.columns);
     })
   }
 }

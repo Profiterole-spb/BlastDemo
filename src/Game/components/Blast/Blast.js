@@ -8,6 +8,7 @@ import FindRegionSystem from "./FindRegionSystem.js";
 import DestroySystem from "./DestroySystem.js";
 import SimpleBlastSystem from "./SimpleBlastSystem.js";
 import ScaleDownDestroySystem from "./ScaleDownDestroySystem.js";
+import BombSystem from "./BombSystem.js";
 
 
 export default class Blast extends EventEmitter {
@@ -25,6 +26,7 @@ export default class Blast extends EventEmitter {
     this.systems.push(new DisplaySystem(this))
     this.systems.push(new DropSystem(this))
     this.systems.push(new FindRegionSystem(this))
+    this.systems.push(new BombSystem(this))
     this.systems.push(new SimpleBlastSystem(this))
     this.systems.push(new ScaleDownDestroySystem(this))
     this.systems.push(new DestroySystem(this))
@@ -42,6 +44,8 @@ export default class Blast extends EventEmitter {
       console.log('Input is enabled')
       this.input.view.interactive = true
     })
+
+    this.bombBonusIsActive = false;
   }
 
   update() {
@@ -57,11 +61,16 @@ export default class Blast extends EventEmitter {
     entity.selected = true;
 
     console.log('selected', entity)
-    this.systems[3].isActive = true;
     console.log('Input is disabled')
     this.input.view.interactive = false;
+
+    if (this.bombBonusIsActive) {
+      this.emit('Activate: BombSystem')
+      return;
+    }
+
+    this.emit('Activate: FindRegionSystem')
     this.emit('Activate: SimpleBlastSystem')
-    // this.view.getChildByName(entity.id).destroy()
-    // this.entities[y * this.options.columns + x] = null
+
   }
 }
