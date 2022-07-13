@@ -1,28 +1,28 @@
 
-import {Sprite, Texture} from "pixi.js";
 import EventEmitter from "../../../Services/EventEmitter.js";
+import {Graphics} from "pixi.js";
 
 export default class Input extends EventEmitter {
 
   static getDefaultOptions() {
     return {
-      cellWidth: 172,
-      cellHeight: 172,
-      cellPadding: 1,
-      columns: 9,
+      cellWidth: 100,
+      cellHeight: 100,
+      cellPadding: 2,
+      columns: 10,
       rows: 10,
+      listOfGeneralGems: [],
     }
   }
 
   constructor(options) {
     super();
     this.options = Object.assign(Input.getDefaultOptions(), options)
-    this.view = new Sprite(Texture.WHITE);
-    this.view.tint = 0xff0000
-    this.view.width = this.options.cellWidth * this.options.columns
-    this.view.height = this.options.cellHeight * this.options.rows
-    this.view.alpha = 0.2
+    this.view = new Graphics();
+    this.view.alpha = 0
+    this.view.zIndex = 1000
     this.view.interactive = true;
+    this.drawField()
 
     this.touching = false;
     this.pointer = {x: null, y: null};
@@ -39,7 +39,7 @@ export default class Input extends EventEmitter {
     })
     this.view.on('pointerup', (e) => {
       this.touching = false
-      this.emit('pointerup')
+      this.emit('pointerup', {...this.overCell})
     })
     this.view.on('pointerout', (e) => {
       if (!this.touching) return
@@ -66,6 +66,26 @@ export default class Input extends EventEmitter {
         this.outCell = this.overCell;
       }
     })
+  }
+
+  drawField() {
+    this.view.beginFill(0x00ff00, 0.3)
+    this.view.drawRect(0, 0,
+      (this.options.cellWidth + this.options.cellPadding) * this.options.columns,
+      (this.options.cellHeight + this.options.cellPadding) * this.options.rows
+    )
+    this.view.endFill()
+    this.view.lineStyle(3, 0xff0000)
+    for (let i = 0; i < this.options.columns; i++) {
+      for (let j = 0; j < this.options.rows; j++) {
+        this.view.drawRect(
+          i * (this.options.cellWidth + this.options.cellPadding),
+          j * (this.options.cellHeight + this.options.cellPadding),
+          (this.options.cellWidth + this.options.cellPadding),
+          (this.options.cellHeight + this.options.cellPadding)
+        )
+      }
+    }
   }
 
   updateCells() {

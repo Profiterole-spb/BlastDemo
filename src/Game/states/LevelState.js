@@ -21,9 +21,11 @@ export default class LevelState extends EventEmitter {
     this.blast = new Blast({
       cellWidth: 172,
       cellHeight: 172,
-      cellPadding: 1,
+      cellPadding: 0,
+      pivot: [172 / 2, 172 / 2 + 22],
       columns: 9,
       rows: 10,
+      minRegion: 2,
       entities: {
         simple: {
           blue: {
@@ -45,13 +47,13 @@ export default class LevelState extends EventEmitter {
             destroyEffect: 'scaleDown',
           },
           green: {
-            texture: 'yellow',
+            texture: 'green',
             type: 'simple',
             falling: true,
             destroyEffect: 'scaleDown',
           },
           purple: {
-            texture: 'yellow',
+            texture: 'purple',
             type: 'simple',
             falling: true,
             destroyEffect: 'scaleDown',
@@ -59,7 +61,7 @@ export default class LevelState extends EventEmitter {
         }
       }
     });
-    this.blast.view.position.set(40, 50)
+    this.blast.view.position.set(45, 60)
     this.screen.blastContainer.addChild(this.blast.view)
 
     this.isActive = true;

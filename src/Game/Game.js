@@ -24,6 +24,7 @@ export default class Game extends EventEmitter {
       new LoadState(),
       new LevelState()
     )
+
   }
 
   update() {
