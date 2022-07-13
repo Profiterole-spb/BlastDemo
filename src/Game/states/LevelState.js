@@ -86,6 +86,10 @@ export default class LevelState extends EventEmitter {
 
     this.blast.addEventListener('SimpleBlastSystem: use region', this.handleMovies, this)
     this.blast.addEventListener('DestroySystem: destroy', this.handleDestroyItems, this)
+    this.blast.addEventListener('Activate: BombSystem', () => {
+      this.data.bonuses[0] = false
+      this.blast.bombBonusIsActive = false
+    })
 
     this.screen.addEventListener('clickOnBonus', (e) => {
       this.data.bonuses[e.index] = !this.data.bonuses[e.index]
