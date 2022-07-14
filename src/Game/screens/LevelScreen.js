@@ -120,6 +120,8 @@ export default class LevelScreen extends EventEmitter{
     }
 
     bonuses[0].getChildByName('icon').texture = Locator.getLoader().resources['bomb'].texture
+    bonuses[1].getChildByName('icon').texture = Locator.getLoader().resources['portal'].texture
+    bonuses[1].getChildByName('icon').scale.set(0.8)
 
     pauseButton.addChild(pauseIcon)
     scoresContainer.addChild(scoresLabelText, scoresValueText)

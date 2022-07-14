@@ -9,6 +9,7 @@ import DestroySystem from "./DestroySystem.js";
 import SimpleBlastSystem from "./SimpleBlastSystem.js";
 import ScaleDownDestroySystem from "./ScaleDownDestroySystem.js";
 import BombSystem from "./BombSystem.js";
+import TeleportSystem from "./TeleportSystem.js";
 
 
 export default class Blast extends EventEmitter {
@@ -27,6 +28,7 @@ export default class Blast extends EventEmitter {
     this.systems.push(new DropSystem(this))
     this.systems.push(new FindRegionSystem(this))
     this.systems.push(new BombSystem(this))
+    this.systems.push(new TeleportSystem(this))
     this.systems.push(new SimpleBlastSystem(this))
     this.systems.push(new ScaleDownDestroySystem(this))
     this.systems.push(new DestroySystem(this))
@@ -46,6 +48,7 @@ export default class Blast extends EventEmitter {
     })
 
     this.bombBonusIsActive = false;
+    this.teleportBonusIsActive = false;
   }
 
   update() {
@@ -66,6 +69,11 @@ export default class Blast extends EventEmitter {
 
     if (this.bombBonusIsActive) {
       this.emit('Activate: BombSystem')
+      return;
+    }
+
+    if (this.teleportBonusIsActive) {
+      this.emit('Activate: TeleportSystem')
       return;
     }
 

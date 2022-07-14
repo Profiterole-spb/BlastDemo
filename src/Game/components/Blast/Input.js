@@ -21,7 +21,7 @@ export default class Input extends EventEmitter {
     this.view = new Graphics();
     this.view.alpha = 0
     this.view.zIndex = 1000
-    this.view.interactive = true;
+    // this.view.interactive = true;
     this.drawField()
 
     this.touching = false;

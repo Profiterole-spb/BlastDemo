@@ -85,6 +85,11 @@ export default class LevelState extends EventEmitter {
     this.screen.blastContainer.addChild(this.blast.view)
 
     this.blast.addEventListener('SimpleBlastSystem: use region', this.handleMovies, this)
+    this.blast.addEventListener('TeleportSystem: start swapping', () => {
+      this.data.bonuses[1] = false;
+      this.blast.teleportBonusIsActive = false;
+      this.handleMovies()
+    }, this)
     this.blast.addEventListener('DestroySystem: destroy', this.handleDestroyItems, this)
     this.blast.addEventListener('Activate: BombSystem', () => {
       this.data.bonuses[0] = false
@@ -94,24 +99,23 @@ export default class LevelState extends EventEmitter {
     this.screen.addEventListener('clickOnBonus', (e) => {
       this.data.bonuses[e.index] = !this.data.bonuses[e.index]
       this.blast.bombBonusIsActive = this.data.bonuses[0]
+      this.blast.teleportBonusIsActive = this.data.bonuses[1]
     })
 
     this.isActive = true;
   }
 
   handleMovies() {
-
+    this.data.movies -= 1;
+    if (this.data.movies === 0) {
+      this.screen.blastContainer.interactiveChildren = false
+    }
   }
 
   handleDestroyItems(data) {
     console.log(data)
     const scores = data.length ** 2
     this.data.scores += scores
-
-    this.data.movies -= 1;
-    if (this.data.movies === 0) {
-      this.screen.blastContainer.interactiveChildren = false
-    }
 
     this.checkScores()
   }
