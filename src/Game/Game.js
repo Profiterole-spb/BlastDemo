@@ -4,6 +4,9 @@ import {Renderer, Container, Loader} from 'pixi.js'
 import { SETTINGS } from "./settings.js";
 import LevelState from "./states/LevelState.js";
 import LoadState from "./states/LoadState.js";
+import DialogState from "./states/DialogState.js";
+import WinState from "./states/WinState.js";
+import FailState from "./states/FailState.js";
 
 export default class Game extends EventEmitter {
   constructor() {
@@ -22,7 +25,10 @@ export default class Game extends EventEmitter {
     this.states = [];
     this.states.push(
       new LoadState(),
-      new LevelState()
+      new LevelState(),
+      new DialogState(),
+      new WinState(),
+      new FailState()
     )
 
   }

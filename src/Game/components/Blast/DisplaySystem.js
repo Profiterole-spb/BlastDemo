@@ -26,7 +26,6 @@ export default class DisplaySystem extends EventEmitter {
           Math.floor(index / this.game.options.columns) * this.options.cellHeight + this.options.cellHeight / 2
         )
         this.view.addChild(sprite);
-        console.log('Create sprite', {entity, sprite, index})
       }
 
       const sprite = this.view.getChildByName(entity.id)

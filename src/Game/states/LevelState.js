@@ -96,6 +96,7 @@ export default class LevelState extends EventEmitter {
     });
     this.blast.view.position.set(45, 60)
     this.screen.blastContainer.addChild(this.blast.view)
+    this.screen.view.interactiveChildren = false
 
     this.blast.addEventListener('SimpleBlastSystem: use region', this.handleMovies, this)
     this.blast.addEventListener('TeleportSystem: start swapping', () => {
@@ -109,10 +110,22 @@ export default class LevelState extends EventEmitter {
       this.blast.bombBonusIsActive = false
     })
 
+    const showDialog = () => {
+      this.blast.removeEventListener('DropSystem: no empty cells', showDialog, this)
+      Locator.getEventBus().emit('initDialogState')
+    }
+
+    this.blast.addEventListener('DropSystem: no empty cells', showDialog, this)
+
     this.screen.addEventListener('clickOnBonus', (e) => {
       this.data.bonuses[e.index] = !this.data.bonuses[e.index]
       this.blast.bombBonusIsActive = this.data.bonuses[0]
       this.blast.teleportBonusIsActive = this.data.bonuses[1]
+    })
+
+    Locator.getEventBus().once('DialogState:terminated', () => {
+      console.log('handle dialog terminate')
+      this.screen.view.interactiveChildren = true
     })
 
     this.isActive = true;
@@ -144,10 +157,12 @@ export default class LevelState extends EventEmitter {
 
   handleWin() {
     console.log('win')
+    Locator.getEventBus().emit('initWinState')
   }
 
   handleFail() {
     console.log('fail')
+    Locator.getEventBus().emit('initFailState')
   }
 
   update() {
