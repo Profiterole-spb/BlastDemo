@@ -36,7 +36,6 @@ export default class DropSystem extends EventEmitter {
     })
 
     if (this.entities.findIndex((entity) => entity === null) < 0) {
-      console.log('DropSystem неактивна')
       this.isActive = false;
       this.game.emit('DropSystem: no empty cells')
     }

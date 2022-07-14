@@ -11,7 +11,6 @@ export default class TeleportSystem extends EventEmitter {
     this.isActive = false;
 
     this.game.addEventListener('Activate: TeleportSystem', () => {
-      console.log('TeleportSystem is enabled')
       this.isActive = true
     })
 
@@ -37,13 +36,10 @@ export default class TeleportSystem extends EventEmitter {
 
     if (selected.length === 2) {
       this.game.emit('TeleportSystem: start swapping', {items: selected})
-      console.log(selected)
       const sprites = selected.map(entity => this.game.view.getChildByName(entity.id))
-      console.log(sprites)
       const positions = sprites.map(sprite => {
         return {x: sprite.x, y: sprite.y}
       });
-      console.log(positions)
       positions.reverse()
       const animation = gsap.timeline()
       sprites.forEach((sprite, index) => {
@@ -62,9 +58,7 @@ export default class TeleportSystem extends EventEmitter {
         })
 
         const indexes = selected.map((entity) => this.game.entities.indexOf(entity))
-        console.log(indexes)
         const swapIndexes = indexes.slice().reverse();
-        console.log(swapIndexes)
 
         swapIndexes.forEach((index, i) => {
           this.entities[index] = selected[i]

@@ -8,7 +8,6 @@ export default class FindRegionSystem extends EventEmitter {
     this.isActive = false;
 
     this.game.addEventListener('Activate: FindRegionSystem', () => {
-      console.log('FindRegionSystem is enabled')
       this.isActive = true
     })
   }

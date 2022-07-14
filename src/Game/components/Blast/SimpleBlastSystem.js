@@ -9,7 +9,6 @@ export default class SimpleBlastSystem extends EventEmitter {
     this.isActive = false;
 
     this.game.addEventListener('Activate: SimpleBlastSystem', () => {
-      console.log('SimpleBlastSystem is enabled')
       this.isActive = true
     })
   }
@@ -25,7 +24,6 @@ export default class SimpleBlastSystem extends EventEmitter {
 
     selected.forEach(entity => delete entity.selected)
 
-    console.log('SimpleBlastSystem is disabled')
     this.isActive = false
   }
 }

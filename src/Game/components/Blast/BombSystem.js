@@ -10,7 +10,6 @@ export default class BombSystem extends EventEmitter {
     this.isActive = false;
 
     this.game.addEventListener('Activate: BombSystem', () => {
-      console.log('BombSystem is enabled')
       this.isActive = true
     })
   }

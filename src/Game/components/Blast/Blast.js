@@ -10,6 +10,7 @@ import SimpleBlastSystem from "./SimpleBlastSystem.js";
 import ScaleDownDestroySystem from "./ScaleDownDestroySystem.js";
 import BombSystem from "./BombSystem.js";
 import TeleportSystem from "./TeleportSystem.js";
+import GenerateLineBonusSystem from "./GenerateLineBonusSystem.js";
 
 
 export default class Blast extends EventEmitter {
@@ -32,19 +33,22 @@ export default class Blast extends EventEmitter {
     this.systems.push(new SimpleBlastSystem(this))
     this.systems.push(new ScaleDownDestroySystem(this))
     this.systems.push(new DestroySystem(this))
+    this.systems.push(new GenerateLineBonusSystem(this))
 
     this.input.addEventListener('pointerup', this.handlePointerUp, this)
-    this.addEventListener('DestroySystem: destroy', () => {
+    this.addEventListener('DestroySystem: destroy', (data) => {
+      this.emit('RegionDestroyed', data)
       this.emit('Activate: DropSystem')
     })
 
     this.addEventListener('DropSystem: no empty cells', () => {
-      console.log('Input is enabled')
       this.input.view.interactive = true
     })
     this.addEventListener('SimpleBlastSystem: no region', () => {
-      console.log('Input is enabled')
       this.input.view.interactive = true
+    })
+    this.addEventListener('SimpleBlastSystem: use region', (data) => {
+      this.emit('RegionAffected', data)
     })
 
     this.bombBonusIsActive = false;
@@ -63,8 +67,6 @@ export default class Blast extends EventEmitter {
     const entity = this.entities[y * this.options.columns + x]
     entity.selected = true;
 
-    console.log('selected', entity)
-    console.log('Input is disabled')
     this.input.view.interactive = false;
 
     if (this.bombBonusIsActive) {

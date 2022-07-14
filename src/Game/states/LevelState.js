@@ -29,18 +29,31 @@ export default class LevelState extends EventEmitter {
       cellWidth: 172,
       cellHeight: 172,
       cellPadding: 0,
-      pivot: [172 / 2, 172 / 2 + 22],
+
       columns: 9,
       rows: 10,
+      pivot: [172 / 2, 172 / 2 + 22],
       minRegion: 2,
+      lineBonus: 5,
       entities: {
         bonuses: {
           bomb: {
             texture: 'bomb',
             type: 'bonus',
-            destroyEffect: 'explosion',
             radius: 1
-          }
+          },
+          rowBonus: {
+            texture: 'rowBonus',
+            falling: true,
+            type: 'bonus',
+            sortable: true,
+          },
+          columnBonus: {
+            texture: 'columnBonus',
+            falling: true,
+            type: 'bonus',
+            sortable: true,
+          },
         },
         simple: {
           blue: {
@@ -113,7 +126,6 @@ export default class LevelState extends EventEmitter {
   }
 
   handleDestroyItems(data) {
-    console.log(data)
     const scores = data.length ** 2
     this.data.scores += scores
 

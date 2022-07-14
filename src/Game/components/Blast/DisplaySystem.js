@@ -22,10 +22,11 @@ export default class DisplaySystem extends EventEmitter {
         sprite.name = entity.id
         sprite.pivot.set(...this.options.pivot)
         sprite.position.set(
-          this.options.cellWidth * index + this.options.cellWidth / 2,
-          this.options.cellHeight / 2
+          index % this.game.options.columns * this.options.cellWidth + this.options.cellWidth / 2,
+          Math.floor(index / this.game.options.columns) * this.options.cellHeight + this.options.cellHeight / 2
         )
         this.view.addChild(sprite);
+        console.log('Create sprite', {entity, sprite, index})
       }
 
       const sprite = this.view.getChildByName(entity.id)
