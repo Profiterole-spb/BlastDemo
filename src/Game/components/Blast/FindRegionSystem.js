@@ -19,7 +19,7 @@ export default class FindRegionSystem extends EventEmitter {
       let result = false;
       this.entities.forEach((entity, index) => {
         if (entity === null) return;
-        if (entity.selected) {
+        if (entity.selected && entity.type === 'simple') {
           if (this.markNearRelation(index)) result = true;
           entity.needDestroy = true;
         }

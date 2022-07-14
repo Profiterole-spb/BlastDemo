@@ -15,6 +15,7 @@ export default class SimpleBlastSystem extends EventEmitter {
 
   update() {
     const selected = this.entities.filter(entity => entity && entity.selected);
+    if (selected.length === 0) return;
     if (selected.length >= this.game.options.minRegion) {
       selected.forEach(entity => entity[entity.destroyEffect] = true)
       this.game.emit('SimpleBlastSystem: use region', selected.slice())

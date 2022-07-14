@@ -11,6 +11,8 @@ import ScaleDownDestroySystem from "./ScaleDownDestroySystem.js";
 import BombSystem from "./BombSystem.js";
 import TeleportSystem from "./TeleportSystem.js";
 import GenerateLineBonusSystem from "./GenerateLineBonusSystem.js";
+import RowBonusSystem from "./RowBonusSystem.js";
+import ColumnBonusSystem from "./ColumnBonusSystem.js";
 
 
 export default class Blast extends EventEmitter {
@@ -27,9 +29,11 @@ export default class Blast extends EventEmitter {
     this.systems.push(new GenerateSystem(this))
     this.systems.push(new DisplaySystem(this))
     this.systems.push(new DropSystem(this))
-    this.systems.push(new FindRegionSystem(this))
+    this.systems.push(new RowBonusSystem(this))
+    this.systems.push(new ColumnBonusSystem(this))
     this.systems.push(new BombSystem(this))
     this.systems.push(new TeleportSystem(this))
+    this.systems.push(new FindRegionSystem(this))
     this.systems.push(new SimpleBlastSystem(this))
     this.systems.push(new ScaleDownDestroySystem(this))
     this.systems.push(new DestroySystem(this))

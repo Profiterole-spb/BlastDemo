@@ -34,6 +34,7 @@ export default class GenerateLineBonusSystem extends EventEmitter {
 
       const types = ['rowBonus', 'columnBonus']
       const type = Math.trunc(Math.random() * 100) % 2
+      // const type = 1
       console.log('type ', type)
 
       this.game.entities[this.clickedItemIndex] = {...this.game.options.entities.bonuses[types[type]]}
