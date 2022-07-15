@@ -8,36 +8,27 @@ export default class GenerateLineBonusSystem {
     this.region = null;
 
     this.game.input.addEventListener('pointerup', (position) => {
-      console.log('GenerateLineBonusSystem: handlePointerUp', position)
       this.clickedItemIndex = position.y * this.game.options.columns + position.x
     })
 
     this.game.addEventListener(Events.regionAffected, (region) => {
-      console.log('GenerateLineBonusSystem: handleRegionAffected', region)
       if (region.length >= this.game.options.lineBonus) {
         this.region = region
-        console.log('region: ', this.region)
       }
     })
 
     this.game.addEventListener(Events.regionDestroyed, (event) => {
-      console.log('GenerateLineBonusSystem: handleRegionDestroyed', event)
       if (!this.region || !this.clickedItemIndex) {
         this.clickedItemIndex = null
         this.region = null
         return
       }
 
-      console.log('GenerateLineBonusSystem: create entity: ', this.clickedItemIndex)
-
       const types = ['rowBonus', 'columnBonus']
       const type = Math.trunc(Math.random() * 100) % 2
-      // const type = 1
-      console.log('type ', type)
 
       this.game.entities[this.clickedItemIndex] = {...this.game.options.entities.bonuses[types[type]]}
       this.game.entities[this.clickedItemIndex].id = this.getRandomID()
-      console.log(this.game.entities[this.clickedItemIndex])
       this.clickedItemIndex = null
       this.region = null
     })

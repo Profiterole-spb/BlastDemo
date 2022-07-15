@@ -34,7 +34,6 @@ export default class ColumnBonusSystem {
             delete target.falling
             if (target.type === 'simple') target[target.destroyEffect] = true;
             if (target.type === 'bonus') target.selected = true;
-            console.log('line destroy item')
           }
         })
         .eventCallback('onComplete', () => {

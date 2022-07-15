@@ -15,6 +15,7 @@ import RowBonusSystem from "./RowBonusSystem.js";
 import ColumnBonusSystem from "./ColumnBonusSystem.js";
 import {Events} from "../../../Events/Events.js";
 import SortSystem from "./SortSystem.js";
+import FindAvailableMoviesSystem from "./FindAvailableMoviesSystem.js";
 
 
 export default class Blast extends EventEmitter {
@@ -41,6 +42,7 @@ export default class Blast extends EventEmitter {
     this.systems.push(new DestroySystem(this))
     this.systems.push(new GenerateLineBonusSystem(this))
     this.systems.push(new SortSystem(this))
+    this.systems.push(new FindAvailableMoviesSystem(this))
 
     this.input.addEventListener('pointerup', this.handlePointerUp, this)
     this.addEventListener(Events.tilesDestroyed, (data) => {
@@ -49,8 +51,23 @@ export default class Blast extends EventEmitter {
     })
 
     this.addEventListener(Events.fieldIsFull, () => {
+      this.emit(Events.activateFindAvailableMoviesSystem)
+    })
+
+    this.addEventListener(Events.availableMoves, () => {
+      this.view.interactiveChildren = true
       this.input.view.interactive = true
     })
+
+    this.addEventListener(Events.noAvailableMove, () => {
+      this.view.interactiveChildren = false;
+      this.emit(Events.activateSortSystem)
+    })
+
+    this.addEventListener(Events.sortEnd, () => {
+      this.emit(Events.activateFindAvailableMoviesSystem)
+    })
+
     this.addEventListener(Events.noRegion, () => {
       this.input.view.interactive = true
     })

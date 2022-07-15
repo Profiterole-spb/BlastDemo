@@ -23,7 +23,11 @@ export const Events = {
   activateFindRegionSystem: 17,
   activateSimpleBlastSystem: 18,
   activateSortSystem: 19,
+  activateFindAvailableMoviesSystem: 20,
+  availableMoves: 21,
+  noAvailableMove: 22,
+  sortEnd: 23,
 
   // Screens events
-  clickOnSort: 20,
+  clickOnSort: 24,
 }

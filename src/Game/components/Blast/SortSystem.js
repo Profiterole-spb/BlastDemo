@@ -10,7 +10,6 @@ export default class SortSystem {
     this.game.addEventListener(Events.activateSortSystem, () => {
       if (this.isActive) return;
       this.isActive = true
-      this.game.view.interactiveChildren = false;
       this.sort()
     })
   }
@@ -59,7 +58,7 @@ export default class SortSystem {
 
     animation.eventCallback('onComplete', () => {
       this.isActive = false
-      this.game.view.interactiveChildren = true;
+      this.game.emit(Events.sortEnd)
     })
   }
 }

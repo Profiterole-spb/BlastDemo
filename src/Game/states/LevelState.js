@@ -20,7 +20,9 @@ export default class LevelState extends EventEmitter {
       movies: 20,
       scores: 0,
       scoresForWin: 500,
-      bonuses: [false, false, false]
+      bonuses: [false, false, false],
+      maxSort: 5,
+      sort: 0,
     }
 
     this.screen = new LevelScreen(this);
@@ -30,12 +32,11 @@ export default class LevelState extends EventEmitter {
       cellWidth: 172,
       cellHeight: 172,
       cellPadding: 0,
-
       columns: 9,
       rows: 10,
       pivot: [172 / 2, 172 / 2 + 22],
       minRegion: 2,
-      lineBonus: 5,
+      lineBonus: 6,
       entities: {
         bonuses: {
           bomb: {
@@ -117,6 +118,13 @@ export default class LevelState extends EventEmitter {
     }
 
     this.blast.addEventListener(Events.fieldIsFull, showDialog, this)
+
+    this.blast.addEventListener(Events.sortEnd, () => {
+      this.data.sort += 1;
+      if (this.data.sort === this.data.maxSort) {
+        this.handleFail()
+      }
+    })
 
     this.screen.addEventListener(Events.clickOnBonus, (e) => {
       this.data.bonuses[e.index] = !this.data.bonuses[e.index]
