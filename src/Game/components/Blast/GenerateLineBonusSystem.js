@@ -1,10 +1,7 @@
-import EventEmitter from "../../../Services/EventEmitter.js";
 import {Events} from "../../../Events/Events.js";
 
-export default class GenerateLineBonusSystem extends EventEmitter {
+export default class GenerateLineBonusSystem {
   constructor(game) {
-    super();
-
     this.game = game;
 
     this.clickedItemIndex = null;

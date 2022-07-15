@@ -1,9 +1,7 @@
-import EventEmitter from "../../../Services/EventEmitter.js";
 import {Events} from "../../../Events/Events.js";
 
-export default class FindRegionSystem extends EventEmitter {
+export default class FindRegionSystem {
   constructor(game) {
-    super();
     this.game = game;
     this.entities = this.game.entities;
     this.isActive = false;

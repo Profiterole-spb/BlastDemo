@@ -1,9 +1,5 @@
-import EventEmitter from "../../../Services/EventEmitter.js";
-
-export default class GenerateSystem extends EventEmitter {
+export default class GenerateSystem {
   constructor(game) {
-    super();
-
     this.game = game;
     this.entities = this.game.entities
     this.isActive = true;

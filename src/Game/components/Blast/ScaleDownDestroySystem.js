@@ -1,9 +1,7 @@
-import EventEmitter from "../../../Services/EventEmitter.js";
 import {gsap} from "gsap"
 
-export default class ScaleDownDestroySystem extends EventEmitter {
+export default class ScaleDownDestroySystem {
   constructor(game) {
-    super();
     this.game =  game;
     this.isActive = true;
   }

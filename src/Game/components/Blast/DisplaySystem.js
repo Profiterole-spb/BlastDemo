@@ -1,10 +1,8 @@
-import EventEmitter from "../../../Services/EventEmitter.js";
 import Locator from "../../../Services/Locator.js";
 import {Sprite} from "pixi.js";
 
-export default class DisplaySystem extends EventEmitter {
+export default class DisplaySystem {
   constructor(game) {
-    super();
     this.game = game;
     this.options = this.game.options;
     this.entities = this.game.entities
@@ -21,10 +19,7 @@ export default class DisplaySystem extends EventEmitter {
         sprite.textureName = entity.texture
         sprite.name = entity.id
         sprite.pivot.set(...this.options.pivot)
-        sprite.position.set(
-          index % this.game.options.columns * this.options.cellWidth + this.options.cellWidth / 2,
-          Math.floor(index / this.game.options.columns) * this.options.cellHeight + this.options.cellHeight / 2
-        )
+        this.setSpritePosition(sprite, index)
         this.view.addChild(sprite);
       }
 
@@ -33,8 +28,21 @@ export default class DisplaySystem extends EventEmitter {
         sprite.texture = Locator.getLoader().resources[entity.texture].texture;
         sprite.textureName = sprite.texture;
       }
+
+      if (entity.updatePosition) {
+        this.setSpritePosition(sprite, index)
+        delete entity.updatePosition
+      }
+
       if (entity.sortable)
         sprite.zIndex = this.options.rows - Math.floor(index / this.options.columns);
     })
+  }
+
+  setSpritePosition(sprite, index) {
+    sprite.position.set(
+      index % this.game.options.columns * this.options.cellWidth + this.options.cellWidth / 2,
+      Math.floor(index / this.game.options.columns) * this.options.cellHeight + this.options.cellHeight / 2
+    )
   }
 }

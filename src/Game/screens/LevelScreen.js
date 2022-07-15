@@ -124,12 +124,25 @@ export default class LevelScreen extends EventEmitter{
     bonuses[1].getChildByName('icon').texture = Locator.getLoader().resources['portal'].texture
     bonuses[1].getChildByName('icon').scale.set(0.8)
 
+    const sortButton = new Sprite(Locator.getLoader().resources.button.texture)
+    sortButton.anchor.set(0.5)
+    sortButton.position.set(background.width - 600, background.height - 150)
+    const sortCaption = new Text('Sort', {fill: '#fff', fontFamily: 'Marvin', fontSize: 80})
+    sortCaption.anchor.set(0.5)
+    sortButton.addChild(sortCaption)
+    sortButton.on('pointerover', () => sortButton.scale.set(1.2))
+    sortButton.on('pointerout', () => sortButton.scale.set(1))
+    sortButton.on('pointerdown', () => {
+      this.emit(Events.clickOnSort)
+    })
+    sortButton.interactive = true;
+
     pauseButton.addChild(pauseIcon)
     scoresContainer.addChild(scoresLabelText, scoresValueText)
     movesContainer.addChild(movesText)
     rightPanel.addChild(movesContainer, scoresContainer)
     this.view.addChild(background, topPanel, rightPanel, field, pauseButton,
-      bonusTitle, ...bonuses)
+      bonusTitle, ...bonuses, sortButton)
 
 
     this.blastContainer = field

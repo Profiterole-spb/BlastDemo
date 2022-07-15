@@ -21,5 +21,9 @@ export const Events = {
   regionAffected: 15,
   activateTeleportSystem: 16,
   activateFindRegionSystem: 17,
-  activateSimpleBlastSystem: 18
+  activateSimpleBlastSystem: 18,
+  activateSortSystem: 19,
+
+  // Screens events
+  clickOnSort: 20,
 }

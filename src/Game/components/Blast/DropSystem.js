@@ -1,10 +1,8 @@
-import EventEmitter from "../../../Services/EventEmitter.js";
 import {gsap} from "gsap";
 import {Events} from "../../../Events/Events.js";
 
-export default class DropSystem extends EventEmitter {
+export default class DropSystem {
   constructor(game) {
-    super();
     this.game = game;
     this.options = this.game.options;
     this.entities = this.game.entities;

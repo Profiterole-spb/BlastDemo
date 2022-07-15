@@ -124,6 +124,10 @@ export default class LevelState extends EventEmitter {
       this.blast.teleportBonusIsActive = this.data.bonuses[1]
     })
 
+    this.screen.addEventListener(Events.clickOnSort, (e) => {
+      this.blast.emit(Events.activateSortSystem)
+    })
+
     Locator.getEventBus().once(Events.DialogStateIsTerminated, () => {
       this.screen.view.interactiveChildren = true
     })

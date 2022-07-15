@@ -14,6 +14,7 @@ import GenerateLineBonusSystem from "./GenerateLineBonusSystem.js";
 import RowBonusSystem from "./RowBonusSystem.js";
 import ColumnBonusSystem from "./ColumnBonusSystem.js";
 import {Events} from "../../../Events/Events.js";
+import SortSystem from "./SortSystem.js";
 
 
 export default class Blast extends EventEmitter {
@@ -39,6 +40,7 @@ export default class Blast extends EventEmitter {
     this.systems.push(new ScaleDownDestroySystem(this))
     this.systems.push(new DestroySystem(this))
     this.systems.push(new GenerateLineBonusSystem(this))
+    this.systems.push(new SortSystem(this))
 
     this.input.addEventListener('pointerup', this.handlePointerUp, this)
     this.addEventListener(Events.tilesDestroyed, (data) => {

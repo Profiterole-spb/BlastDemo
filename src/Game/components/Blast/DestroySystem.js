@@ -1,10 +1,7 @@
-import EventEmitter from "../../../Services/EventEmitter.js";
 import {Events} from "../../../Events/Events.js";
 
-export default class DestroySystem extends EventEmitter {
+export default class DestroySystem {
   constructor(game) {
-    super();
-
     this.game = game;
     this.entities = this.game.entities;
     this.isActive = true;

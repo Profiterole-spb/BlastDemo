@@ -1,10 +1,7 @@
-import EventEmitter from "../../../Services/EventEmitter.js";
 import {gsap} from 'gsap';
 
-export default class RowBonusSystem extends EventEmitter {
+export default class RowBonusSystem {
   constructor(game) {
-    super();
-
     this.game = game;
     this.entities = this.game.entities;
 

@@ -1,12 +1,9 @@
-import EventEmitter from "../../../Services/EventEmitter.js";
 import {GlowFilter} from "pixi-filters";
 import {gsap} from 'gsap';
 import {Events} from "../../../Events/Events.js";
 
-export default class TeleportSystem extends EventEmitter {
+export default class TeleportSystem {
   constructor(game) {
-    super();
-
     this.game = game;
     this.entities = game.entities;
     this.isActive = false;
