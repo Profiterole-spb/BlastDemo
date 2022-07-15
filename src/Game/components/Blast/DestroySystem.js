@@ -1,4 +1,5 @@
 import EventEmitter from "../../../Services/EventEmitter.js";
+import {Events} from "../../../Events/Events.js";
 
 export default class DestroySystem extends EventEmitter {
   constructor(game) {
@@ -19,7 +20,7 @@ export default class DestroySystem extends EventEmitter {
       }
     })
     if (destroyed.length > 0) {
-      this.game.emit('DestroySystem: destroy', destroyed)
+      this.game.emit(Events.tilesDestroyed, destroyed)
     }
   }
 }

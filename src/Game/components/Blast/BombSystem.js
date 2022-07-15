@@ -1,5 +1,6 @@
 import EventEmitter from "../../../Services/EventEmitter.js";
 import {gsap} from 'gsap'
+import {Events} from "../../../Events/Events.js";
 
 export default class BombSystem extends EventEmitter {
   constructor(game) {
@@ -9,7 +10,7 @@ export default class BombSystem extends EventEmitter {
     this.entities = this.game.entities;
     this.isActive = false;
 
-    this.game.addEventListener('Activate: BombSystem', () => {
+    this.game.addEventListener(Events.activateBombSystem, () => {
       this.isActive = true
     })
   }

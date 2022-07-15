@@ -1,4 +1,5 @@
 import EventEmitter from "../../../Services/EventEmitter.js";
+import {Events} from "../../../Events/Events.js";
 
 export default class SimpleBlastSystem extends EventEmitter {
   constructor(game) {
@@ -8,7 +9,7 @@ export default class SimpleBlastSystem extends EventEmitter {
     this.entities = this.game.entities;
     this.isActive = false;
 
-    this.game.addEventListener('Activate: SimpleBlastSystem', () => {
+    this.game.addEventListener(Events.activateSimpleBlastSystem, () => {
       this.isActive = true
     })
   }
@@ -18,9 +19,9 @@ export default class SimpleBlastSystem extends EventEmitter {
     if (selected.length === 0) return;
     if (selected.length >= this.game.options.minRegion) {
       selected.forEach(entity => entity[entity.destroyEffect] = true)
-      this.game.emit('SimpleBlastSystem: use region', selected.slice())
+      this.game.emit(Events.regionSelected, selected.slice())
     } else {
-      this.game.emit('SimpleBlastSystem: no region')
+      this.game.emit(Events.noRegion)
     }
 
     selected.forEach(entity => delete entity.selected)

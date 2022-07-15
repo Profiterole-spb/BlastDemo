@@ -2,6 +2,7 @@ import EventEmitter from "../../Services/EventEmitter.js";
 import Locator from "../../Services/Locator.js";
 import DialogScreen from "../screens/DialogScreen.js";
 import FailScreen from "../screens/FailScreen.js";
+import {Events} from "../../Events/Events.js";
 
 export default class FailState extends EventEmitter {
   constructor() {
@@ -9,7 +10,7 @@ export default class FailState extends EventEmitter {
 
     this.isActive = false;
 
-    Locator.getEventBus().addEventListener('initFailState', this.init, this)
+    Locator.getEventBus().addEventListener(Events.FailStateIsInitialized, this.init, this)
   }
 
   init() {

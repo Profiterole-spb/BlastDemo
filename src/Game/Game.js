@@ -7,6 +7,7 @@ import LoadState from "./states/LoadState.js";
 import DialogState from "./states/DialogState.js";
 import WinState from "./states/WinState.js";
 import FailState from "./states/FailState.js";
+import {Events} from "../Events/Events.js";
 
 export default class Game extends EventEmitter {
   constructor() {
@@ -44,6 +45,6 @@ export default class Game extends EventEmitter {
 
   start() {
     Locator.getClock().run();
-    Locator.getEventBus().emit('initLoadState')
+    Locator.getEventBus().emit(Events.LoadStateIsInitialized)
   }
 }

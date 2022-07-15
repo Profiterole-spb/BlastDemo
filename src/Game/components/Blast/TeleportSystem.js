@@ -1,6 +1,7 @@
 import EventEmitter from "../../../Services/EventEmitter.js";
 import {GlowFilter} from "pixi-filters";
 import {gsap} from 'gsap';
+import {Events} from "../../../Events/Events.js";
 
 export default class TeleportSystem extends EventEmitter {
   constructor(game) {
@@ -10,7 +11,7 @@ export default class TeleportSystem extends EventEmitter {
     this.entities = game.entities;
     this.isActive = false;
 
-    this.game.addEventListener('Activate: TeleportSystem', () => {
+    this.game.addEventListener(Events.activateTeleportSystem, () => {
       this.isActive = true
     })
 
@@ -35,7 +36,7 @@ export default class TeleportSystem extends EventEmitter {
     }
 
     if (selected.length === 2) {
-      this.game.emit('TeleportSystem: start swapping', {items: selected})
+      this.game.emit(Events.swappingTwoTiles, {items: selected})
       const sprites = selected.map(entity => this.game.view.getChildByName(entity.id))
       const positions = sprites.map(sprite => {
         return {x: sprite.x, y: sprite.y}

@@ -2,6 +2,7 @@ import EventEmitter from "../../Services/EventEmitter.js";
 import LevelScreen from "../screens/LevelScreen.js";
 import Locator from "../../Services/Locator.js";
 import Blast from "../components/Blast/Blast.js";
+import {Events} from "../../Events/Events.js";
 
 export default class LevelState extends EventEmitter {
   constructor() {
@@ -9,7 +10,7 @@ export default class LevelState extends EventEmitter {
 
     this.isActive = false;
 
-    Locator.getEventBus().addEventListener('initLevelState', this.init, this)
+    Locator.getEventBus().addEventListener(Events.LevelStateIsInitialized, this.init, this)
   }
 
   init() {
@@ -98,33 +99,32 @@ export default class LevelState extends EventEmitter {
     this.screen.blastContainer.addChild(this.blast.view)
     this.screen.view.interactiveChildren = false
 
-    this.blast.addEventListener('SimpleBlastSystem: use region', this.handleMovies, this)
-    this.blast.addEventListener('TeleportSystem: start swapping', () => {
+    this.blast.addEventListener(Events.regionSelected, this.handleMovies, this)
+    this.blast.addEventListener(Events.swappingTwoTiles, () => {
       this.data.bonuses[1] = false;
       this.blast.teleportBonusIsActive = false;
       this.handleMovies()
     }, this)
-    this.blast.addEventListener('DestroySystem: destroy', this.handleDestroyItems, this)
-    this.blast.addEventListener('Activate: BombSystem', () => {
+    this.blast.addEventListener(Events.tilesDestroyed, this.handleDestroyItems, this)
+    this.blast.addEventListener(Events.activateBombSystem, () => {
       this.data.bonuses[0] = false
       this.blast.bombBonusIsActive = false
     })
 
     const showDialog = () => {
-      this.blast.removeEventListener('DropSystem: no empty cells', showDialog, this)
-      Locator.getEventBus().emit('initDialogState')
+      this.blast.removeEventListener(Events.fieldIsFull, showDialog, this)
+      Locator.getEventBus().emit(Events.DialogStateIsInitialized)
     }
 
-    this.blast.addEventListener('DropSystem: no empty cells', showDialog, this)
+    this.blast.addEventListener(Events.fieldIsFull, showDialog, this)
 
-    this.screen.addEventListener('clickOnBonus', (e) => {
+    this.screen.addEventListener(Events.clickOnBonus, (e) => {
       this.data.bonuses[e.index] = !this.data.bonuses[e.index]
       this.blast.bombBonusIsActive = this.data.bonuses[0]
       this.blast.teleportBonusIsActive = this.data.bonuses[1]
     })
 
-    Locator.getEventBus().once('DialogState:terminated', () => {
-      console.log('handle dialog terminate')
+    Locator.getEventBus().once(Events.DialogStateIsTerminated, () => {
       this.screen.view.interactiveChildren = true
     })
 
@@ -157,12 +157,14 @@ export default class LevelState extends EventEmitter {
 
   handleWin() {
     console.log('win')
-    Locator.getEventBus().emit('initWinState')
+    this.screen.view.interactiveChildren = false
+    Locator.getEventBus().emit(Events.WinStateIsInitialized)
   }
 
   handleFail() {
     console.log('fail')
-    Locator.getEventBus().emit('initFailState')
+    this.screen.view.interactiveChildren = false
+    Locator.getEventBus().emit(Events.FailStateIsInitialized)
   }
 
   update() {

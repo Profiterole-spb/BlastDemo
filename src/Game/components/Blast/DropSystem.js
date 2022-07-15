@@ -1,5 +1,6 @@
 import EventEmitter from "../../../Services/EventEmitter.js";
 import {gsap} from "gsap";
+import {Events} from "../../../Events/Events.js";
 
 export default class DropSystem extends EventEmitter {
   constructor(game) {
@@ -10,7 +11,7 @@ export default class DropSystem extends EventEmitter {
     this.view = this.game.view;
 
     this.isActive = true;
-    this.game.addEventListener('Activate: DropSystem', () => this.isActive = true)
+    this.game.addEventListener(Events.activateDropSystem, () => this.isActive = true)
   }
 
   update() {
@@ -37,7 +38,7 @@ export default class DropSystem extends EventEmitter {
 
     if (this.entities.findIndex((entity) => entity === null) < 0) {
       this.isActive = false;
-      this.game.emit('DropSystem: no empty cells')
+      this.game.emit(Events.fieldIsFull)
     }
   }
 }

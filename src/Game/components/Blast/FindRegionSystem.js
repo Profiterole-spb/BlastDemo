@@ -1,4 +1,5 @@
 import EventEmitter from "../../../Services/EventEmitter.js";
+import {Events} from "../../../Events/Events.js";
 
 export default class FindRegionSystem extends EventEmitter {
   constructor(game) {
@@ -7,7 +8,7 @@ export default class FindRegionSystem extends EventEmitter {
     this.entities = this.game.entities;
     this.isActive = false;
 
-    this.game.addEventListener('Activate: FindRegionSystem', () => {
+    this.game.addEventListener(Events.activateFindRegionSystem, () => {
       this.isActive = true
     })
   }

@@ -1,4 +1,5 @@
 import EventEmitter from "../../../Services/EventEmitter.js";
+import {Events} from "../../../Events/Events.js";
 
 export default class GenerateLineBonusSystem extends EventEmitter {
   constructor(game) {
@@ -14,7 +15,7 @@ export default class GenerateLineBonusSystem extends EventEmitter {
       this.clickedItemIndex = position.y * this.game.options.columns + position.x
     })
 
-    this.game.addEventListener('RegionAffected', (region) => {
+    this.game.addEventListener(Events.regionAffected, (region) => {
       console.log('GenerateLineBonusSystem: handleRegionAffected', region)
       if (region.length >= this.game.options.lineBonus) {
         this.region = region
@@ -22,7 +23,7 @@ export default class GenerateLineBonusSystem extends EventEmitter {
       }
     })
 
-    this.game.addEventListener('RegionDestroyed', (event) => {
+    this.game.addEventListener(Events.regionDestroyed, (event) => {
       console.log('GenerateLineBonusSystem: handleRegionDestroyed', event)
       if (!this.region || !this.clickedItemIndex) {
         this.clickedItemIndex = null

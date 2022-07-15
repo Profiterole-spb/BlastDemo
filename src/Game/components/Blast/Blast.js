@@ -13,6 +13,7 @@ import TeleportSystem from "./TeleportSystem.js";
 import GenerateLineBonusSystem from "./GenerateLineBonusSystem.js";
 import RowBonusSystem from "./RowBonusSystem.js";
 import ColumnBonusSystem from "./ColumnBonusSystem.js";
+import {Events} from "../../../Events/Events.js";
 
 
 export default class Blast extends EventEmitter {
@@ -40,19 +41,19 @@ export default class Blast extends EventEmitter {
     this.systems.push(new GenerateLineBonusSystem(this))
 
     this.input.addEventListener('pointerup', this.handlePointerUp, this)
-    this.addEventListener('DestroySystem: destroy', (data) => {
-      this.emit('RegionDestroyed', data)
-      this.emit('Activate: DropSystem')
+    this.addEventListener(Events.tilesDestroyed, (data) => {
+      this.emit(Events.regionDestroyed, data)
+      this.emit(Events.activateDropSystem)
     })
 
-    this.addEventListener('DropSystem: no empty cells', () => {
+    this.addEventListener(Events.fieldIsFull, () => {
       this.input.view.interactive = true
     })
-    this.addEventListener('SimpleBlastSystem: no region', () => {
+    this.addEventListener(Events.noRegion, () => {
       this.input.view.interactive = true
     })
-    this.addEventListener('SimpleBlastSystem: use region', (data) => {
-      this.emit('RegionAffected', data)
+    this.addEventListener(Events.regionSelected, (data) => {
+      this.emit(Events.regionAffected, data)
     })
 
     this.bombBonusIsActive = false;
@@ -74,17 +75,17 @@ export default class Blast extends EventEmitter {
     this.input.view.interactive = false;
 
     if (this.bombBonusIsActive) {
-      this.emit('Activate: BombSystem')
+      this.emit(Events.activateBombSystem)
       return;
     }
 
     if (this.teleportBonusIsActive) {
-      this.emit('Activate: TeleportSystem')
+      this.emit(Events.activateTeleportSystem)
       return;
     }
 
-    this.emit('Activate: FindRegionSystem')
-    this.emit('Activate: SimpleBlastSystem')
+    this.emit(Events.activateFindRegionSystem)
+    this.emit(Events.activateSimpleBlastSystem)
 
   }
 }

@@ -1,6 +1,7 @@
 import EventEmitter from "../../Services/EventEmitter.js";
 import Locator from "../../Services/Locator.js";
 import WinScreen from "../screens/WinScreen.js";
+import {Events} from "../../Events/Events.js";
 
 export default class WinState extends EventEmitter {
   constructor() {
@@ -8,7 +9,7 @@ export default class WinState extends EventEmitter {
 
     this.isActive = false;
 
-    Locator.getEventBus().addEventListener('initWinState', this.init, this)
+    Locator.getEventBus().addEventListener(Events.WinStateIsInitialized, this.init, this)
   }
 
   init() {

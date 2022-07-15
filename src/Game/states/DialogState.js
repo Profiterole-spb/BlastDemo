@@ -1,6 +1,7 @@
 import EventEmitter from "../../Services/EventEmitter.js";
 import Locator from "../../Services/Locator.js";
 import DialogScreen from "../screens/DialogScreen.js";
+import {Events} from "../../Events/Events.js";
 
 export default class DialogState extends EventEmitter {
   constructor() {
@@ -8,7 +9,7 @@ export default class DialogState extends EventEmitter {
 
     this.isActive = false;
 
-    Locator.getEventBus().addEventListener('initDialogState', this.init, this)
+    Locator.getEventBus().addEventListener(Events.DialogStateIsInitialized, this.init, this)
   }
 
   init() {
@@ -36,6 +37,6 @@ export default class DialogState extends EventEmitter {
     this.isActive = false;
     this.screen.destroy()
     this.screen = null;
-    Locator.getEventBus().emit('DialogState:terminated')
+    Locator.getEventBus().emit(Events.DialogStateIsTerminated)
   }
 }

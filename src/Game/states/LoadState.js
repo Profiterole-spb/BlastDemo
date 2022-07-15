@@ -1,6 +1,7 @@
 import EventEmitter from "../../Services/EventEmitter.js";
 import Locator from "../../Services/Locator.js";
 import { resources } from "../resources.js";
+import {Events} from "../../Events/Events.js";
 
 export default class LoadState extends EventEmitter {
   constructor() {
@@ -8,7 +9,7 @@ export default class LoadState extends EventEmitter {
 
     this.isActive = false;
 
-    Locator.getEventBus().addEventListener('initLoadState', this.init, this)
+    Locator.getEventBus().addEventListener(Events.LoadStateIsInitialized, this.init, this)
   }
 
   init() {
@@ -17,7 +18,7 @@ export default class LoadState extends EventEmitter {
     const loader = Locator.getLoader();
     loader.add(resources)
       .load(() => {
-        Locator.getEventBus().emit('initLevelState')
+        Locator.getEventBus().emit(Events.LevelStateIsInitialized)
         this.terminate();
       })
 

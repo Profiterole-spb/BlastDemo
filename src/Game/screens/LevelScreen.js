@@ -3,6 +3,7 @@ import Locator from "../../Services/Locator.js";
 import {SETTINGS} from "../settings.js";
 import EventEmitter from "../../Services/EventEmitter.js";
 import {GlowFilter} from 'pixi-filters'
+import {Events} from "../../Events/Events.js";
 
 export default class LevelScreen extends EventEmitter{
   constructor(state) {
@@ -113,7 +114,7 @@ export default class LevelScreen extends EventEmitter{
 
       bonusContainer.interactive = true;
       bonusContainer.on('pointerup', () => {
-        this.emit('clickOnBonus', {index: i})
+        this.emit(Events.clickOnBonus, {index: i})
       })
 
       bonuses.push(bonusContainer)
