@@ -1,8 +1,8 @@
-import EventEmitter from "../../Services/EventEmitter.js";
-import LevelScreen from "../screens/LevelScreen.js";
-import Locator from "../../Services/Locator.js";
-import Blast from "../components/Blast/Blast.js";
-import {Events} from "../../Events/Events.js";
+import EventEmitter from '../../Services/EventEmitter.js';
+import LevelScreen from '../screens/LevelScreen.js';
+import Locator from '../../Services/Locator.js';
+import Blast from '../components/Blast/Blast.js';
+import {Events} from '../../Events/Events.js';
 
 export default class LevelState extends EventEmitter {
   constructor() {
@@ -10,7 +10,7 @@ export default class LevelState extends EventEmitter {
 
     this.isActive = false;
 
-    Locator.getEventBus().addEventListener(Events.LevelStateIsInitialized, this.init, this)
+    Locator.getEventBus().addEventListener(Events.LevelStateIsInitialized, this.init, this);
   }
 
   init() {
@@ -23,7 +23,7 @@ export default class LevelState extends EventEmitter {
       bonuses: [false, false, false],
       maxSort: 5,
       sort: 0,
-    }
+    };
 
     this.screen = new LevelScreen(this);
     Locator.getStage().addChild(this.screen.view);
@@ -42,7 +42,7 @@ export default class LevelState extends EventEmitter {
           bomb: {
             texture: 'bomb',
             type: 'bonus',
-            radius: 1
+            radius: 1,
           },
           rowBonus: {
             texture: 'rowBonus',
@@ -93,52 +93,52 @@ export default class LevelState extends EventEmitter {
             destroyEffect: 'scaleDown',
             sortable: true,
           },
-        }
-      }
+        },
+      },
     });
-    this.blast.view.position.set(45, 60)
-    this.screen.blastContainer.addChild(this.blast.view)
-    this.screen.view.interactiveChildren = false
+    this.blast.view.position.set(45, 60);
+    this.screen.blastContainer.addChild(this.blast.view);
+    this.screen.view.interactiveChildren = false;
 
-    this.blast.addEventListener(Events.regionSelected, this.handleMovies, this)
+    this.blast.addEventListener(Events.regionSelected, this.handleMovies, this);
     this.blast.addEventListener(Events.swappingTwoTiles, () => {
       this.data.bonuses[1] = false;
       this.blast.teleportBonusIsActive = false;
-      this.handleMovies()
-    }, this)
-    this.blast.addEventListener(Events.tilesDestroyed, this.handleDestroyItems, this)
+      this.handleMovies();
+    }, this);
+    this.blast.addEventListener(Events.tilesDestroyed, this.handleDestroyItems, this);
     this.blast.addEventListener(Events.activateBombSystem, () => {
-      this.data.bonuses[0] = false
-      this.blast.bombBonusIsActive = false
-    })
+      this.data.bonuses[0] = false;
+      this.blast.bombBonusIsActive = false;
+    });
 
     const showDialog = () => {
-      this.blast.removeEventListener(Events.fieldIsFull, showDialog, this)
-      Locator.getEventBus().emit(Events.DialogStateIsInitialized)
-    }
+      this.blast.removeEventListener(Events.fieldIsFull, showDialog, this);
+      Locator.getEventBus().emit(Events.DialogStateIsInitialized);
+    };
 
-    this.blast.addEventListener(Events.fieldIsFull, showDialog, this)
+    this.blast.addEventListener(Events.fieldIsFull, showDialog, this);
 
     this.blast.addEventListener(Events.sortEnd, () => {
       this.data.sort += 1;
       if (this.data.sort === this.data.maxSort) {
-        this.handleFail()
+        this.handleFail();
       }
-    })
+    });
 
     this.screen.addEventListener(Events.clickOnBonus, (e) => {
-      this.data.bonuses[e.index] = !this.data.bonuses[e.index]
-      this.blast.bombBonusIsActive = this.data.bonuses[0]
-      this.blast.teleportBonusIsActive = this.data.bonuses[1]
-    })
+      this.data.bonuses[e.index] = !this.data.bonuses[e.index];
+      this.blast.bombBonusIsActive = this.data.bonuses[0];
+      this.blast.teleportBonusIsActive = this.data.bonuses[1];
+    });
 
     this.screen.addEventListener(Events.clickOnSort, (e) => {
-      this.blast.emit(Events.activateSortSystem)
-    })
+      this.blast.emit(Events.activateSortSystem);
+    });
 
     Locator.getEventBus().once(Events.DialogStateIsTerminated, () => {
-      this.screen.view.interactiveChildren = true
-    })
+      this.screen.view.interactiveChildren = true;
+    });
 
     this.isActive = true;
   }
@@ -146,40 +146,40 @@ export default class LevelState extends EventEmitter {
   handleMovies() {
     this.data.movies -= 1;
     if (this.data.movies === 0) {
-      this.screen.blastContainer.interactiveChildren = false
+      this.screen.blastContainer.interactiveChildren = false;
     }
   }
 
   handleDestroyItems(data) {
-    const scores = data.length ** 2
-    this.data.scores += scores
+    const scores = data.length ** 2;
+    this.data.scores += scores;
 
-    this.checkScores()
+    this.checkScores();
   }
 
   checkScores() {
     if (this.data.movies >= 0 && this.data.scores >= this.data.scoresForWin) {
-      this.handleWin()
+      this.handleWin();
     }
 
     if (this.data.movies === 0 && this.data.scores < this.data.scoresForWin) {
-      this.handleFail()
+      this.handleFail();
     }
   }
 
   handleWin() {
-    this.screen.view.interactiveChildren = false
-    Locator.getEventBus().emit(Events.WinStateIsInitialized)
+    this.screen.view.interactiveChildren = false;
+    Locator.getEventBus().emit(Events.WinStateIsInitialized);
   }
 
   handleFail() {
-    this.screen.view.interactiveChildren = false
-    Locator.getEventBus().emit(Events.FailStateIsInitialized)
+    this.screen.view.interactiveChildren = false;
+    Locator.getEventBus().emit(Events.FailStateIsInitialized);
   }
 
   update() {
-    this.blast.update()
-    this.screen.update()
+    this.blast.update();
+    this.screen.update();
   }
 
   terminate() {

@@ -1,17 +1,16 @@
-import {Events} from "../../../Events/Events.js";
+import {Events} from '../../../Events/Events.js';
 
 export default class FindAvailableMoviesSystem {
   constructor(game) {
+    this.game = game;
 
-    this.game = game
-
-    this.isActive = false
+    this.isActive = false;
 
     this.game.addEventListener(Events.activateFindAvailableMoviesSystem, () => {
       if (this.isActive) return;
-      this.isActive = true
-      this.analyzeField()
-    })
+      this.isActive = true;
+      this.analyzeField();
+    });
   }
 
   update() {
@@ -21,32 +20,32 @@ export default class FindAvailableMoviesSystem {
   analyzeField() {
     const bonus = this.findBonus();
     if (bonus) {
-      this.game.emit(Events.availableMoves, [bonus])
+      this.game.emit(Events.availableMoves, [bonus]);
       this.isActive = false;
       return;
     }
 
-    const regions = this.findRegions()
+    const regions = this.findRegions();
 
     if (regions.length > 0) {
-      this.game.emit(Events.availableMoves, regions)
+      this.game.emit(Events.availableMoves, regions);
     } else {
-      this.game.emit(Events.noAvailableMove, regions)
+      this.game.emit(Events.noAvailableMove, regions);
     }
 
     this.isActive = false;
   }
 
   findBonus() {
-    const { entities } = this.game
-    return entities.find(entity => entity.type === 'bonus')
+    const {entities} = this.game;
+    return entities.find((entity) => entity.type === 'bonus');
   }
 
   findRegions() {
-    const { entities, options } = this.game;
+    const {entities, options} = this.game;
     const cells = {};
     for (let i = 0; i < options.columns * options.rows; i++) {
-      cells[i] = []
+      cells[i] = [];
 
       const {columns, rows} = options;
       const column = i % columns;
@@ -66,23 +65,22 @@ export default class FindAvailableMoviesSystem {
       }
 
       if (row > 0) {
-        top = entities[i - columns]
+        top = entities[i - columns];
       }
 
       if (row < rows - 1) {
-        bottom = entities[i + columns]
+        bottom = entities[i + columns];
       }
 
       [left, right, top, bottom].forEach((entity, index) => {
         if (entity && entity.texture === entities[i].texture) {
-          cells[i].push(entities.indexOf(entity))
+          cells[i].push(entities.indexOf(entity));
         }
-      })
-
+      });
     }
 
     for (const targetCell in cells) {
-      if (cells[targetCell].length === 0) continue
+      if (cells[targetCell].length === 0) continue;
       for (const checkCell in cells) {
         if (cells[checkCell].length === 0) continue;
         if (checkCell === targetCell) continue;
@@ -93,10 +91,10 @@ export default class FindAvailableMoviesSystem {
       }
     }
 
-    let regions = Object.values(cells).filter((array) => array.length)
-    regions.forEach((region, index, arr) => arr[index] = region.filter((item, index) => region.indexOf(item) === index))
-    regions = regions.filter(array => array.length >= options.minRegion)
+    let regions = Object.values(cells).filter((array) => array.length);
+    regions.forEach((region, index, arr) => arr[index] = region.filter((item, index) => region.indexOf(item) === index));
+    regions = regions.filter((array) => array.length >= options.minRegion);
 
-    return regions
+    return regions;
   }
 }

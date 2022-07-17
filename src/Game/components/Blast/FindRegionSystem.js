@@ -1,4 +1,4 @@
-import {Events} from "../../../Events/Events.js";
+import {Events} from '../../../Events/Events.js';
 
 export default class FindRegionSystem {
   constructor(game) {
@@ -7,8 +7,8 @@ export default class FindRegionSystem {
     this.isActive = false;
 
     this.game.addEventListener(Events.activateFindRegionSystem, () => {
-      this.isActive = true
-    })
+      this.isActive = true;
+    });
   }
 
   update() {
@@ -22,16 +22,16 @@ export default class FindRegionSystem {
           if (this.markNearRelation(index)) result = true;
           entity.needDestroy = true;
         }
-      })
+      });
 
-      if (!result) search = false
+      if (!result) search = false;
     }
 
     this.isActive = false;
   }
 
   markNearRelation(index) {
-    const {columns, rows} = this.game.options
+    const {columns, rows} = this.game.options;
     const column = index % columns;
     const row = Math.floor(index / columns);
 
@@ -49,11 +49,11 @@ export default class FindRegionSystem {
     }
 
     if (row > 0) {
-      top = this.entities[index - columns]
+      top = this.entities[index - columns];
     }
 
     if (row < rows - 1) {
-      bottom = this.entities[index + columns]
+      bottom = this.entities[index + columns];
     }
 
     let result = false;
@@ -63,8 +63,8 @@ export default class FindRegionSystem {
         entity.selected = true;
         result = true;
       }
-    })
+    });
 
-    return result
+    return result;
   }
 }

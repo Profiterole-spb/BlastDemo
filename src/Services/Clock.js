@@ -1,6 +1,6 @@
-import EventEmitter from "./EventEmitter.js";
+import EventEmitter from './EventEmitter.js';
 
-export default class Clock extends EventEmitter{
+export default class Clock extends EventEmitter {
   constructor() {
     super();
     this._timestamp = 0;
@@ -34,7 +34,7 @@ export default class Clock extends EventEmitter{
     this._elapsed = now - this._timestamp;
     this._delta = now - this._lastFrame;
     this._lastFrame = now;
-    this.emit('tick', {elapsed: this._elapsed, delta: this._delta})
+    this.emit('tick', {elapsed: this._elapsed, delta: this._delta});
     if (!this._isRunning) return;
     requestAnimationFrame(() => this._tick());
   }

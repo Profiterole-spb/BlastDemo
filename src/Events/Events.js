@@ -30,4 +30,4 @@ export const Events = {
 
   // Screens events
   clickOnSort: 24,
-}
+};

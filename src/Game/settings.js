@@ -4,6 +4,6 @@ export const SETTINGS = {
     height: 2480,
     backgroundColor: 0x000000,
     // resolution: 0.25
-    resolution: 1
-  }
-}
+    resolution: 1,
+  },
+};

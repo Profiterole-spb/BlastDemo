@@ -1,4 +1,4 @@
-import {Events} from "../../../Events/Events.js";
+import {Events} from '../../../Events/Events.js';
 
 export default class DestroySystem {
   constructor(game) {
@@ -8,16 +8,16 @@ export default class DestroySystem {
   }
 
   update() {
-    const destroyed = []
+    const destroyed = [];
     this.entities.forEach((entity, index) => {
       if (entity && entity.destroy) {
-        this.game.view.getChildByName(entity.id).destroy()
-        destroyed.push(this.entities[index])
-        this.entities[index] = null
+        this.game.view.getChildByName(entity.id).destroy();
+        destroyed.push(this.entities[index]);
+        this.entities[index] = null;
       }
-    })
+    });
     if (destroyed.length > 0) {
-      this.game.emit(Events.tilesDestroyed, destroyed)
+      this.game.emit(Events.tilesDestroyed, destroyed);
     }
   }
 }

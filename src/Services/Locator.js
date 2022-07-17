@@ -1,14 +1,14 @@
-import Clock from "./Clock.js";
-import EventEmitter from "./EventEmitter.js";
+import Clock from './Clock.js';
+import EventEmitter from './EventEmitter.js';
 
 export default class Locator {
   static _services = {
-      clock: new Clock(),
-      canvas: document.createElement('canvas'),
-      eventBus: new EventEmitter(),
-      stage: null,
-      loader: null,
-    }
+    clock: new Clock(),
+    canvas: document.createElement('canvas'),
+    eventBus: new EventEmitter(),
+    stage: null,
+    loader: null,
+  };
 
   /**
    * Returns a services list
@@ -23,7 +23,7 @@ export default class Locator {
   }
 
   static getClock() {
-    return this._services.clock
+    return this._services.clock;
   }
 
   static provideCanvas(canvas) {
@@ -47,7 +47,7 @@ export default class Locator {
   }
 
   static getStage() {
-    return this._services.stage
+    return this._services.stage;
   }
 
   static provideEventBus(eventEmitter) {
@@ -55,14 +55,14 @@ export default class Locator {
   }
 
   static getEventBus() {
-    return this._services.eventBus
+    return this._services.eventBus;
   }
 
   static provideLoader(loader) {
-    this._services.loader = loader
+    this._services.loader = loader;
   }
 
   static getLoader() {
-    return this._services.loader
+    return this._services.loader;
   }
 }
