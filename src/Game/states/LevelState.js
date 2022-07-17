@@ -36,7 +36,7 @@ export default class LevelState extends EventEmitter {
       rows: 10,
       pivot: [172 / 2, 172 / 2 + 22],
       minRegion: 2,
-      lineBonus: 3,
+      lineBonus: 5,
       entities: {
         bonuses: {
           bomb: {
