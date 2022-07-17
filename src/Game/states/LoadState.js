@@ -17,7 +17,8 @@ export default class LoadState extends EventEmitter {
     if (this.isActive) return;
 
     const loader = Locator.getLoader();
-    loader.add(resources)
+    loader.add(resources);
+    loader.add('levelConfig', './levels/01.level')
         .load(() => {
           Locator.getEventBus().emit(Events.LevelStateIsInitialized);
           this.terminate();

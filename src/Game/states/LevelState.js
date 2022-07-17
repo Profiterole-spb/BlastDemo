@@ -16,86 +16,12 @@ export default class LevelState extends EventEmitter {
   init() {
     if (this.isActive) return;
 
-    this.data = {
-      movies: 20,
-      scores: 0,
-      scoresForWin: 500,
-      bonuses: [false, false, false],
-      maxSort: 5,
-      sort: 0,
-    };
+    this.data = Locator.getLoader().resources.levelConfig.data.data;
 
     this.screen = new LevelScreen(this);
     Locator.getStage().addChild(this.screen.view);
 
-    this.blast = new Blast({
-      cellWidth: 172,
-      cellHeight: 172,
-      cellPadding: 0,
-      columns: 9,
-      rows: 10,
-      pivot: [172 / 2, 172 / 2 + 22],
-      minRegion: 2,
-      lineBonus: 5,
-      entities: {
-        bonuses: {
-          bomb: {
-            texture: 'bomb',
-            type: 'bonus',
-            radius: 1,
-          },
-          rowBonus: {
-            texture: 'rowBonus',
-            falling: true,
-            type: 'bonus',
-            sortable: true,
-          },
-          columnBonus: {
-            texture: 'columnBonus',
-            falling: true,
-            type: 'bonus',
-            sortable: true,
-          },
-        },
-        simple: {
-          blue: {
-            texture: 'blue',
-            type: 'simple',
-            falling: true,
-            destroyEffect: 'scaleDown',
-            sortable: true,
-          },
-          red: {
-            texture: 'red',
-            type: 'simple',
-            falling: true,
-            destroyEffect: 'scaleDown',
-            sortable: true,
-          },
-          yellow: {
-            texture: 'yellow',
-            type: 'simple',
-            falling: true,
-            destroyEffect: 'scaleDown',
-            sortable: true,
-          },
-          green: {
-            texture: 'green',
-            type: 'simple',
-            falling: true,
-            destroyEffect: 'scaleDown',
-            sortable: true,
-          },
-          purple: {
-            texture: 'purple',
-            type: 'simple',
-            falling: true,
-            destroyEffect: 'scaleDown',
-            sortable: true,
-          },
-        },
-      },
-    });
+    this.blast = new Blast(Locator.getLoader().resources.levelConfig.data.blast);
     this.blast.view.position.set(45, 60);
     this.screen.blastContainer.addChild(this.blast.view);
     this.screen.view.interactiveChildren = false;

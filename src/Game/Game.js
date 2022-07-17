@@ -8,6 +8,7 @@ import DialogState from './states/DialogState.js';
 import WinState from './states/WinState.js';
 import FailState from './states/FailState.js';
 import {Events} from '../Events/Events.js';
+import LevelLoaderPlugin from '../plugins/LevelLoaderPlugin.js';
 
 export default class Game extends EventEmitter {
   constructor() {
@@ -18,6 +19,9 @@ export default class Game extends EventEmitter {
     Locator.provideRenderer(new Renderer({view: Locator.getCanvas(), ...SETTINGS.renderer}));
     Locator.provideStage(new Container());
     Locator.provideLoader(new Loader());
+
+    // Registrate plugins
+    Loader.registerPlugin(LevelLoaderPlugin);
 
     // setup clock
     Locator.getClock().addEventListener('tick', this.update, this);

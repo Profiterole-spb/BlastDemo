@@ -1,0 +1,78 @@
+{
+  "data": {
+    "movies": 20,
+    "scores": 0,
+    "scoresForWin": 500,
+    "bonuses": [false, false, false],
+    "maxSort": 5,
+    "sort": 0
+  },
+  "blast": {
+    "cellWidth": 172,
+    "cellHeight": 172,
+    "cellPadding": 0,
+    "columns": 9,
+    "rows": 10,
+    "pivot": [86, 108],
+    "minRegion": 2,
+    "lineBonus": 5,
+    "entities": {
+      "bonuses": {
+        "bomb": {
+          "texture": "bomb",
+          "type": "bonus",
+          "radius": 1
+        },
+        "rowBonus": {
+          "texture": "rowBonus",
+          "falling": true,
+          "type": "bonus",
+          "sortable": true
+        },
+        "columnBonus": {
+          "texture": "columnBonus",
+          "falling": true,
+          "type": "bonus",
+          "sortable": true
+        }
+      },
+      "simple": {
+        "blue": {
+          "texture": "blue",
+          "type": "simple",
+          "falling": true,
+          "destroyEffect": "scaleDown",
+          "sortable": true
+        },
+        "red": {
+          "texture": "red",
+          "type": "simple",
+          "falling": true,
+          "destroyEffect": "scaleDown",
+          "sortable": true
+        },
+        "yellow": {
+          "texture": "yellow",
+          "type": "simple",
+          "falling": true,
+          "destroyEffect": "scaleDown",
+          "sortable": true
+        },
+        "green": {
+          "texture": "green",
+          "type": "simple",
+          "falling": true,
+          "destroyEffect": "scaleDown",
+          "sortable": true
+        },
+        "purple": {
+          "texture": "purple",
+          "type": "simple",
+          "falling": true,
+          "destroyEffect": "scaleDown",
+          "sortable": true
+        }
+      }
+    }
+  }
+}
