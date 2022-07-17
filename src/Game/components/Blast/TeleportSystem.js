@@ -17,7 +17,7 @@ export default class TeleportSystem {
 
   update() {
     const selected = []
-    this.entities.forEach(entity => {
+    this.entities.forEach((entity, index) => {
       if (entity.selected) {
         const sprite = this.game.view.getChildByName(entity.id)
         sprite.filters = [this.glow];
@@ -69,7 +69,6 @@ export default class TeleportSystem {
         this.game.emit('TeleportSystem: swapped', {items: selected})
       })
     }
-
     this.isActive = false
   }
 

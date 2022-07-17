@@ -37,7 +37,6 @@ export default class FailScreen extends Container {
     text.position.set(100, 150)
 
     dialogContainer.addChild(text)
-    console.log(dialogContainer)
     this.addChild(back, gull, dialogContainer)
     this.visible = false
 

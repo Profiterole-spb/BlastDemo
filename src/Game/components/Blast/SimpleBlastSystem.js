@@ -7,13 +7,17 @@ export default class SimpleBlastSystem {
     this.isActive = false;
 
     this.game.addEventListener(Events.activateSimpleBlastSystem, () => {
+      if (this.isActive) return;
       this.isActive = true
     })
   }
 
   update() {
     const selected = this.entities.filter(entity => entity && entity.selected);
-    if (selected.length === 0) return;
+    if (selected.length === 0)  {
+      this.isActive = false
+      return;
+    }
     if (selected.length >= this.game.options.minRegion) {
       selected.forEach(entity => entity[entity.destroyEffect] = true)
       this.game.emit(Events.regionSelected, selected.slice())

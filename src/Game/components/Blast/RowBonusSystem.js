@@ -32,7 +32,6 @@ export default class RowBonusSystem {
             if (!target) continue;
             if (target.type === 'simple') target[target.destroyEffect] = true;
             if (target.type === 'bonus') target.selected = true;
-            console.log('line destroy item')
           }
         })
         .eventCallback('onComplete', () => {

@@ -2,7 +2,6 @@ const fs = require("fs");
 const path = require("path");
 
 async function createList(src, listName, filename) {
-  console.log('create assets list:', src)
   const list = [];
 
   await readDirs(src, list)

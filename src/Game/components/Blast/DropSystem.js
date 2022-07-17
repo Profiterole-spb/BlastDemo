@@ -17,7 +17,6 @@ export default class DropSystem {
       if (entity === null) return;
       if (entity.dropping) return;
       if (!entity.falling) return;
-      // if (index > this.options.columns * this.options.rows) return;
       if (this.entities[index + this.options.columns] === null) {
         const sprite = this.view.getChildByName(entity.id);
         const position = {
@@ -25,7 +24,7 @@ export default class DropSystem {
           y: Math.floor((index + this.options.columns) / this.options.columns) * this.options.cellHeight + this.options.cellHeight / 2
         }
         entity.dropping = true;
-        gsap.to(sprite, {...position, duration: 0.05, ease: 'linear'})
+        gsap.to(sprite, {...position, duration: 0.06, ease: 'linear'})
           .eventCallback('onComplete', () => {
             delete entity.dropping;
             this.entities[index + this.options.columns] = entity;

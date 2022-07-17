@@ -38,7 +38,6 @@ export default class WinScreen extends Container {
     text.position.set(100, 150)
 
     dialogContainer.addChild(text)
-    console.log(dialogContainer)
     this.addChild(back, pirate, dialogContainer)
     this.visible = false
 

@@ -36,7 +36,7 @@ export default class LevelState extends EventEmitter {
       rows: 10,
       pivot: [172 / 2, 172 / 2 + 22],
       minRegion: 2,
-      lineBonus: 6,
+      lineBonus: 3,
       entities: {
         bonuses: {
           bomb: {
@@ -168,13 +168,11 @@ export default class LevelState extends EventEmitter {
   }
 
   handleWin() {
-    console.log('win')
     this.screen.view.interactiveChildren = false
     Locator.getEventBus().emit(Events.WinStateIsInitialized)
   }
 
   handleFail() {
-    console.log('fail')
     this.screen.view.interactiveChildren = false
     Locator.getEventBus().emit(Events.FailStateIsInitialized)
   }
