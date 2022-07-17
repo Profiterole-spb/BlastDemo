@@ -33,10 +33,12 @@ export default class LevelState extends EventEmitter {
       this.handleMovies();
     }, this);
     this.blast.addEventListener(Events.tilesDestroyed, this.handleDestroyItems, this);
-    this.blast.addEventListener(Events.activateBombSystem, () => {
+
+    this.blast.addEventListener(Events.bombExploded, () => {
       this.data.bonuses[0] = false;
       this.blast.bombBonusIsActive = false;
-    });
+      this.handleMovies();
+    }, this);
 
     const showDialog = () => {
       this.blast.removeEventListener(Events.fieldIsFull, showDialog, this);

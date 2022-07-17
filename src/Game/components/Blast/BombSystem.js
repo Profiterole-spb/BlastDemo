@@ -52,6 +52,7 @@ export default class BombSystem {
             .eventCallback('onComplete', () => {
               entity.destroy = true;
               destroyed.forEach((e) => e.destroy = true);
+              this.game.emit(Events.bombExploded);
               this.isActive = false;
             });
 

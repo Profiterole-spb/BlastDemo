@@ -27,7 +27,8 @@ export const Events = {
   availableMoves: 21,
   noAvailableMove: 22,
   sortEnd: 23,
+  bombExploded: 24,
 
   // Screens events
-  clickOnSort: 24,
+  clickOnSort: 25,
 };
