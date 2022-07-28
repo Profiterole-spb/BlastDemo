@@ -9,6 +9,7 @@ import WinState from './states/WinState.js';
 import FailState from './states/FailState.js';
 import {Events} from '../Events/Events.js';
 import LevelLoaderPlugin from '../plugins/LevelLoaderPlugin.js';
+import VkService from '../Services/social/VkService.js';
 
 export default class Game extends EventEmitter {
   constructor() {
@@ -19,6 +20,7 @@ export default class Game extends EventEmitter {
     Locator.provideRenderer(new Renderer({view: Locator.getCanvas(), ...SETTINGS.renderer}));
     Locator.provideStage(new Container());
     Locator.provideLoader(new Loader());
+    Locator.provideSocial(new VkService());
 
     // Registrate plugins
     Loader.registerPlugin(LevelLoaderPlugin);
@@ -46,7 +48,9 @@ export default class Game extends EventEmitter {
     Locator.getRenderer().render(Locator.getStage(), {clear: true});
   }
 
-  start() {
+  async start() {
+    Locator.getSocial().init();
+
     Locator.getClock().run();
     Locator.getEventBus().emit(Events.LoadStateIsInitialized);
   }

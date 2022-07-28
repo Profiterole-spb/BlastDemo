@@ -8,6 +8,7 @@ export default class Locator {
     eventBus: new EventEmitter(),
     stage: null,
     loader: null,
+    social: null,
   };
 
   /**
@@ -62,7 +63,15 @@ export default class Locator {
     this._services.loader = loader;
   }
 
-  static getLoader() {
+  static getLoader(service) {
     return this._services.loader;
+  }
+
+  static provideSocial(service) {
+    this._services.social = service;
+  }
+
+  static getSocial() {
+    return this._services.social;
   }
 }

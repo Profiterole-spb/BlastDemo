@@ -144,6 +144,24 @@ export default class LevelScreen extends EventEmitter {
     this.view.addChild(background, topPanel, rightPanel, field, pauseButton,
         bonusTitle, ...bonuses, sortButton);
 
+    Locator.getSocial().getUserInfo()
+        .then((data) => {
+          console.log('LevelScreen received user data', data);
+          Texture.fromURL(data.photo_max_orig)
+              .then((texture) => {
+                const sprite = new Sprite(texture);
+                sprite.width = 200;
+                sprite.height = 200;
+                sprite.position.set(380, 30);
+                this.view.addChild(sprite);
+
+                const text = new Text(`${data.first_name} ${data.last_name}`, {
+                  fill: '#fff', fontFamily: 'Marvin', fontSize: 100,
+                });
+                this.view.addChild(text);
+                text.position.set(630, 50);
+              });
+        });
 
     this.blastContainer = field;
     this.movesText = movesText;

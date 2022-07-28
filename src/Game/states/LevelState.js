@@ -45,7 +45,7 @@ export default class LevelState extends EventEmitter {
       Locator.getEventBus().emit(Events.DialogStateIsInitialized);
     };
 
-    this.blast.addEventListener(Events.fieldIsFull, showDialog, this);
+    // this.blast.addEventListener(Events.fieldIsFull, showDialog, this);
 
     this.blast.addEventListener(Events.sortEnd, () => {
       this.data.sort += 1;
@@ -64,9 +64,9 @@ export default class LevelState extends EventEmitter {
       this.blast.emit(Events.activateSortSystem);
     });
 
-    Locator.getEventBus().once(Events.DialogStateIsTerminated, () => {
+    // Locator.getEventBus().once(Events.DialogStateIsTerminated, () => {
       this.screen.view.interactiveChildren = true;
-    });
+    // });
 
     this.isActive = true;
   }
