@@ -5,7 +5,8 @@
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
     "dev": "webpack serve --config ./bundler/webpack.dev.js",
-    "resources": "node ./utils/createAssetList.js"
+    "resources": "node ./utils/createAssetList.js",
+    "vk-tunnel": "vk-tunnel --insecure=1 --http-protocol=https --ws-protocol=wss --host=192.168.100.3 --port=8080"
   },
   "dependencies": {
     "@babel/core": "^7.16.12",
